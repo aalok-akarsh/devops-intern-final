@@ -1,0 +1,26 @@
+Loki Setup (local Docker)
+
+Start Loki:
+  docker run -d --name loki -p 3100:3100 grafana/loki:2.9.8 -config.file=/etc/loki/local-config.yaml
+
+Start Grafana:
+  docker run -d --name grafana -p 3000:3000 grafana/grafana:latest
+
+Quick query (example):
+  curl "http://localhost:3100/loki/api/v1/query?query={job=\"hello\"}"
+
+Test push/query (local):
+  curl -X POST "http://localhost:3100/loki/api/v1/push" \
+    -H "Content-Type: application/json" \
+    -d '{"streams":[{"stream":{"job":"hello","level":"info"},"values":[["'"$(date +%s%N)"'","hello-from-loki-test"]] }]}'
+  curl "http://localhost:3100/loki/api/v1/query?query=%7Bjob%3D%22hello%22%7D"
+
+Notes:
+- You can also view logs by port-forwarding or using Grafana if installed.
+- Grafana default login is admin / admin (it will ask you to change it).
+- In Grafana, add a Loki datasource at http://host.docker.internal:3100
+- For container logs, a simple forwarding option is the Docker Loki logging driver.
+  Example (requires the Loki logging plugin):
+    docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+    docker run --rm --log-driver=loki --log-opt loki-url="http://localhost:3100/loki/api/v1/push" hello-devops:latest
+- For Nomad logs, you can also use a log agent (e.g., Promtail) to scrape task logs and push to Loki.

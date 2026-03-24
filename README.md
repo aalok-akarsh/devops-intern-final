@@ -3,7 +3,7 @@
 Name: Alok Pandey
 Date: March 2026
 
-This project is a simple DevOps workflow using GitHub, Linux scripting, Docker, CI/CD, Nomad, and monitoring.
+This project is a simple DevOps workflow I put together using GitHub, Linux scripting, Docker, CI/CD, Nomad, and monitoring.
 
 ## Project Steps
 
@@ -58,7 +58,7 @@ Log forwarding (simple option):
 
 ## Run Notes
 - Tested locally in WSL (Ubuntu) on March 24, 2026: Python, the script, Docker build/run, Nomad job, and Loki/Grafana.
-- Used a local registry (`localhost:5000`) for Nomad to avoid Docker Hub.
+- Used a local registry (`localhost:5000`) for Nomad so I didn’t need Docker Hub.
 - Loki test push/query worked locally (test log `hello-from-loki-test`).
 
 ## Files Included
@@ -68,3 +68,7 @@ Log forwarding (simple option):
 - `.github/workflows/ci.yml`
 - `nomad/hello.nomad`
 - `monitoring/loki_setup.txt`
+
+## Extra Credit (Optional)
+- MLflow tracking: see `mlflow/README.md`
+- VM walkthrough (VirtualBox): see `vm/README.md`
